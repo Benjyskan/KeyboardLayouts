@@ -1,5 +1,7 @@
 'use strict';
-
+//               GOOD LINK FOR KEY EVENTS           
+// https://groups.google.com/g/angular/c/vXqVOKcwA7M?pli=1
+//
 angular.module('myApp.view1', ['ngRoute'])
 
 .config(['$routeProvider', function($routeProvider) {
@@ -11,10 +13,9 @@ angular.module('myApp.view1', ['ngRoute'])
 
 .controller('View1Ctrl', ['$scope', '$http', function($scope, $http) {
   $http.get("myKeys.json").then(mySuccess, myError);
-  console.log("For each apply ?");//NOP, that's good !
   $scope.currentModifier = [];
   
-  // Key logger
+  // Key loggers
   document.onkeydown = function(e) {
     console.log("down key: ", e.key);
     if (e.key == "Shift")
@@ -27,7 +28,6 @@ angular.module('myApp.view1', ['ngRoute'])
     $scope.getLayoutPriority($scope.currentModifier);
   };
 
-  // $scope.currentModifier.pop("Shift");
   document.onkeyup = function(e) {
     console.log("up key: ", e.key);
     if (e.key == "Shift")
