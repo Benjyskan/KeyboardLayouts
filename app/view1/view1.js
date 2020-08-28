@@ -15,7 +15,7 @@ angular.module('myApp.view1', ['ngRoute'])
   // Init
   $http.get("myKeys.json").then(mySuccess, myError);//Fetch JSON
   $scope.currentModifier = [];
-  $scope.isEditMode = false;
+  $scope.isEditMode = true;
   
   // Key loggers
   document.onkeydown = function(e) {
@@ -47,7 +47,7 @@ angular.module('myApp.view1', ['ngRoute'])
       $scope.currentModifier = $scope.currentModifier.filter(f => f !== "Ctrl");
     if (e.key == "Alt" || e.key == "Meta")
       $scope.currentModifier = $scope.currentModifier.filter(f => f !== "Alt");
-    console.log("up mod:", $scope.currentModifier);
+    // console.log("up mod:", $scope.currentModifier);
   }
 
   // Determine modifier priority
@@ -63,19 +63,29 @@ angular.module('myApp.view1', ['ngRoute'])
     $scope.$apply();
   }
 
-  $scope.myChange = function(key, row, myId) {
-    console.log("Changed, key: %c%s%c, row: %o, TEST:",
-      "color:green", key, "color:black", row.length, myId);
+  $scope.getCurrentLayout = function(modifiers) {
+    if (modifiers.includes("Shift")) {
+      return $scope.myData.data.shiftLayer;
+    } else if (modifiers.includes("Ctrl")) {
+      return $scope.myData.data.ctrlLayer;
+    } else if (modifiers.includes("Alt")) {
+      return $scope.myData.data.altLayer;
+    } else
+      return $scope.myData.data.keyboard1;
+  }
+
+  $scope.myChange = function(key, row, index) {//RENAME PLZ
+    console.log("Changed, row: %o, index:", row, index);
+    $scope.currentLayout[row][index] = key;
     console.log("penzo - ", $scope.currentLayout);
-    // $scope.currentLayout[row] = key;
-    console.log('ouech:', document.getElementById(myId));
   }
   
   // fetching .json functions
   function mySuccess(response) {
-    $scope.myData = response;
+    $scope.myData = response;// should i use response.data instead ??
     $scope.myLen = Object.keys($scope.myData.data.keyboard1[0]).length;// kinda dirty, i should maybe find the longest row.
     $scope.currentLayout = $scope.myData.data.keyboard1;
+    console.log("SUCCESS PARSING JSON !!!!", Object.keys($scope.myData.data));
   };
 
   function myError(error) {

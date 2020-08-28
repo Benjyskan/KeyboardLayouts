@@ -4,6 +4,14 @@
 	<input type="checkbox" ng-model="isEditMode">
 </label>
 <div>isEditMode = {{isEditMode}}</div>
+<div>
+	current layout:
+	<select ng-options="osef for osef in myData.data" ng-model="$scope.currentLayout">
+	<!-- <select ng-model="$scope.currentLayout"> -->
+		<!-- <option ng-repeat="layout in myData.data" value="layout">{{myData.data[layout]}} a</option> -->
+	</select>
+</div>
+
 <table>
 	<thead>
 		<th colspan="{{myLen}}">my table</th>
@@ -25,8 +33,8 @@
 					type="text"
 					ng-model="key"
 					name="testName"
-					ng-change="myChange(key, row, $id)"
-					maxlength="2"
+					ng-change="myChange(key, $parent.$parent.$index, $index)"
+					maxlength="10"
 					onclick="this.select()"
 				>
 			</td>
