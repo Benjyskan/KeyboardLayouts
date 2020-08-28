@@ -12,24 +12,35 @@ angular.module('myApp.view1', ['ngRoute'])
 }])
 
 .controller('View1Ctrl', ['$scope', '$http', function($scope, $http) {
-  $http.get("myKeys.json").then(mySuccess, myError);
+  // Init
+  $http.get("myKeys.json").then(mySuccess, myError);//Fetch JSON
   $scope.currentModifier = [];
+  $scope.isEditMode = false;
   
   // Key loggers
   document.onkeydown = function(e) {
-    console.log("down key: ", e.key);
+    // console.log("down key: ", e.key);
+    $scope.addModifier(e);
+    $scope.setLayoutByPriority($scope.currentModifier);
+  };
+
+  document.onkeyup = function(e) {
+    // console.log("up key: ", e.key);
+    $scope.removeModifier(e);
+    $scope.setLayoutByPriority($scope.currentModifier);
+  };
+
+  $scope.addModifier = function(e) {
     if (e.key == "Shift")
       $scope.currentModifier.push("Shift");
     if (e.key == "Control")
       $scope.currentModifier.push("Ctrl");
     if (e.key == "Alt" || e.key == "Meta")
       $scope.currentModifier.push("Alt");
-    console.log("down mod:", $scope.currentModifier);
-    $scope.getLayoutPriority($scope.currentModifier);
-  };
+    // console.log("down mod:", $scope.currentModifier);
+  }
 
-  document.onkeyup = function(e) {
-    console.log("up key: ", e.key);
+  $scope.removeModifier = function(e) {
     if (e.key == "Shift")
       $scope.currentModifier = $scope.currentModifier.filter(f => f !== "Shift");
     if (e.key == "Control")
@@ -37,11 +48,10 @@ angular.module('myApp.view1', ['ngRoute'])
     if (e.key == "Alt" || e.key == "Meta")
       $scope.currentModifier = $scope.currentModifier.filter(f => f !== "Alt");
     console.log("up mod:", $scope.currentModifier);
-    $scope.getLayoutPriority($scope.currentModifier);
-  };
+  }
 
   // Determine modifier priority
-  $scope.getLayoutPriority = function(modifiers) {
+  $scope.setLayoutByPriority = function(modifiers) {
     if (modifiers.includes("Shift")) {
       $scope.currentLayout = $scope.myData.data.shiftLayer;
     } else if (modifiers.includes("Ctrl")) {
@@ -52,11 +62,19 @@ angular.module('myApp.view1', ['ngRoute'])
       $scope.currentLayout = $scope.myData.data.keyboard1;
     $scope.$apply();
   }
+
+  $scope.myChange = function(key, row, myId) {
+    console.log("Changed, key: %c%s%c, row: %o, TEST:",
+      "color:green", key, "color:black", row.length, myId);
+    console.log("penzo - ", $scope.currentLayout);
+    // $scope.currentLayout[row] = key;
+    console.log('ouech:', document.getElementById(myId));
+  }
   
   // fetching .json functions
   function mySuccess(response) {
     $scope.myData = response;
-    $scope.myLen = Object.keys($scope.myData.data.keyboard1.row1).length;// kinda dirty
+    $scope.myLen = Object.keys($scope.myData.data.keyboard1[0]).length;// kinda dirty, i should maybe find the longest row.
     $scope.currentLayout = $scope.myData.data.keyboard1;
   };
 

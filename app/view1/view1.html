@@ -1,4 +1,9 @@
 <p>This is the partial for view 1.</p>
+
+<label>Edit mode
+	<input type="checkbox" ng-model="isEditMode">
+</label>
+<div>isEditMode = {{isEditMode}}</div>
 <table>
 	<thead>
 		<th colspan="{{myLen}}">my table</th>
@@ -6,7 +11,25 @@
 	<tbody>
 		<!-- <tr ng-repeat="row in myData.data.keyboard1"> -->
 		<tr ng-repeat="row in currentLayout" ng-model="currentLayout">
-			<td ng-repeat="key in row">{{key}}</td>
+			<td
+				ng-if="!isEditMode"
+				ng-repeat="key in row track by $index"
+			>
+				{{key}}
+			</td>
+			<td
+				ng-if="isEditMode"
+				ng-repeat="key in row track by $index"
+			>
+				<input
+					type="text"
+					ng-model="key"
+					name="testName"
+					ng-change="myChange(key, row, $id)"
+					maxlength="2"
+					onclick="this.select()"
+				>
+			</td>
 		</tr>
 	</tbody>
 </table>
