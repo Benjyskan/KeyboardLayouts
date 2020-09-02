@@ -4,12 +4,13 @@
 	<input type="checkbox" ng-model="isEditMode">
 </label>
 <div>isEditMode = {{isEditMode}}</div>
-<div>
-	current layout:
+<div><!-- ng-hide if editing a specific layout -->
+	lock on layout:
 	<select
 		ng-options="layout as layout.name for layout in myData.data track by myData.data"
-		ng-init="layout = $scope.myData.data.defaultLayout"
-		ng-model="$scope.currentLayout">
+		ng-model="$scope.currentLayout"
+		ng-change="changeLayoutViaSelect($scope)">
+		<option value="">- free -</option>
 	</select>
 	<!-- <select ng-model="$scope.currentLayout"> -->
 		<!-- <option ng-repeat="layout in myData.data" value="layout">{{myData.data[layout]}} a</option> -->

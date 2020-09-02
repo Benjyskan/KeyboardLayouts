@@ -21,13 +21,13 @@ angular.module('myApp.view1', ['ngRoute'])
   document.onkeydown = function(e) {
     // console.log("down key: ", e.key);
     $scope.addModifier(e);
-    $scope.setLayoutByPriority($scope.currentModifier);
+    $scope.setLayoutByModifierPriority($scope.currentModifier);
   };
 
   document.onkeyup = function(e) {
     // console.log("up key: ", e.key);
     $scope.removeModifier(e);
-    $scope.setLayoutByPriority($scope.currentModifier);
+    $scope.setLayoutByModifierPriority($scope.currentModifier);
   };
 
   // Modifiers stacks management
@@ -52,7 +52,7 @@ angular.module('myApp.view1', ['ngRoute'])
   }
 
   // Determine modifier priority
-  $scope.setLayoutByPriority = function(modifiers) {
+  $scope.setLayoutByModifierPriority = function(modifiers) {
     if (modifiers.includes("Shift")) {
       $scope.currentLayout = $scope.myData.data.shiftLayout.layout;
     } else if (modifiers.includes("Ctrl")) {
@@ -75,9 +75,13 @@ angular.module('myApp.view1', ['ngRoute'])
       return $scope.myData.data.defaultLayout.layout;
   }
 
-  $scope.myChange = function(key, row, index) {//RENAME PLZ
-    console.log("Changed, row: %o, index:", row, index);
-    $scope.currentLayout[row][index] = key;
+  $scope.changeLayoutViaSelect = function(selectOption) {
+    console.log('LKSJDFLKJSDLFKJSLDKFJSLDKFJSLDKFJ', selectOption);
+  }
+
+  $scope.myChange = function(key, row, col) {//RENAME PLZ
+    console.log("change[%d][%d] to '%s' on %s layout", row, col, key, $scope.currentLayout);
+    $scope.currentLayout[row][col] = key;
     console.log("penzo - ", $scope.currentLayout);
   }
   
