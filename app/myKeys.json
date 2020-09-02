@@ -1,14 +1,6 @@
 {
-    "defaultLayout": {
-      "name": "defaultLayout",
-      "layout": [
-        [":", ",", ".", "p", "y"],
-        ["a", "o", "e", "u", "i"],
-        ["'", "q", "j", "k", "x"],
-        ["1", "2", "3", "4", "5"]
-    ]},
     "ctrlLayout": {
-      "name": "ctrlLayout",
+      "name": "Ctrl Layout",
       "layout": [
         ["ctrl1", "ctrl2", "ctrl3", "ctrl4", "ctrl5"],
         ["a", "o", "e", "u", "i"],
@@ -16,7 +8,7 @@
         ["1", "2", "3", "4", "5"]
     ]},
     "altLayout": {
-      "name": "altLayout",
+      "name": "Alt Layout",
       "layout": [
         ["alt1", "alt2", "alt3", "alt4", "alt5"],
         ["a", "o", "e", "u", "i"],
@@ -24,9 +16,17 @@
         ["1", "2", "3", "4", "5"]
     ]},
     "shiftLayout": {
-      "name": "shiftLayout",
+      "name": "Shift Layout",
       "layout": [
         ["shift1", "shift2", "shift3", "shift4", "shift5"],
+        ["a", "o", "e", "u", "i"],
+        ["'", "q", "j", "k", "x"],
+        ["1", "2", "3", "4", "5"]
+    ]},
+    "defaultLayout": {
+      "name": "Default Layout",
+      "layout": [
+        [":", ",", ".", "p", "y"],
         ["a", "o", "e", "u", "i"],
         ["'", "q", "j", "k", "x"],
         ["1", "2", "3", "4", "5"]
