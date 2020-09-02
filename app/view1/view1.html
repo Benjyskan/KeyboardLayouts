@@ -6,10 +6,14 @@
 <div>isEditMode = {{isEditMode}}</div>
 <div>
 	current layout:
-	<select ng-options="osef for osef in myData.data" ng-model="$scope.currentLayout">
+	<select
+		ng-options="layout.name for layout in myData.data"
+		ng-init="$scope.currentLayout = $scope.myData.data.defaultLayout.name"
+		ng-model="$scope.currentLayout">
+	</select>
 	<!-- <select ng-model="$scope.currentLayout"> -->
 		<!-- <option ng-repeat="layout in myData.data" value="layout">{{myData.data[layout]}} a</option> -->
-	</select>
+	<!-- </select> -->
 </div>
 
 <table>

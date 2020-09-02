@@ -13,9 +13,9 @@ angular.module('myApp.view1', ['ngRoute'])
 
 .controller('View1Ctrl', ['$scope', '$http', function($scope, $http) {
   // Init
-  $http.get("myKeys.json").then(mySuccess, myError);//Fetch JSON
   $scope.currentModifier = [];
   $scope.isEditMode = true;
+  $http.get("myKeys.json").then(mySuccess, myError);//Fetch JSON
   
   // Key loggers
   document.onkeydown = function(e) {
@@ -30,6 +30,7 @@ angular.module('myApp.view1', ['ngRoute'])
     $scope.setLayoutByPriority($scope.currentModifier);
   };
 
+  // Modifiers stacks management
   $scope.addModifier = function(e) {
     if (e.key == "Shift")
       $scope.currentModifier.push("Shift");
@@ -53,25 +54,25 @@ angular.module('myApp.view1', ['ngRoute'])
   // Determine modifier priority
   $scope.setLayoutByPriority = function(modifiers) {
     if (modifiers.includes("Shift")) {
-      $scope.currentLayout = $scope.myData.data.shiftLayer;
+      $scope.currentLayout = $scope.myData.data.shiftLayout.layout;
     } else if (modifiers.includes("Ctrl")) {
-      $scope.currentLayout = $scope.myData.data.ctrlLayer;
+      $scope.currentLayout = $scope.myData.data.ctrlLayout.layout;
     } else if (modifiers.includes("Alt")) {
-      $scope.currentLayout = $scope.myData.data.altLayer;
+      $scope.currentLayout = $scope.myData.data.altLayout.layout;
     } else
-      $scope.currentLayout = $scope.myData.data.keyboard1;
+      $scope.currentLayout = $scope.myData.data.defaultLayout.layout;
     $scope.$apply();
   }
 
   $scope.getCurrentLayout = function(modifiers) {
     if (modifiers.includes("Shift")) {
-      return $scope.myData.data.shiftLayer;
+      return $scope.myData.data.shiftLayout.layout;
     } else if (modifiers.includes("Ctrl")) {
-      return $scope.myData.data.ctrlLayer;
+      return $scope.myData.data.ctrlLayout.layout;
     } else if (modifiers.includes("Alt")) {
-      return $scope.myData.data.altLayer;
+      return $scope.myData.data.altLayout.layout;
     } else
-      return $scope.myData.data.keyboard1;
+      return $scope.myData.data.defaultLayout.layout;
   }
 
   $scope.myChange = function(key, row, index) {//RENAME PLZ
@@ -83,8 +84,8 @@ angular.module('myApp.view1', ['ngRoute'])
   // fetching .json functions
   function mySuccess(response) {
     $scope.myData = response;// should i use response.data instead ??
-    $scope.myLen = Object.keys($scope.myData.data.keyboard1[0]).length;// kinda dirty, i should maybe find the longest row.
-    $scope.currentLayout = $scope.myData.data.keyboard1;
+    $scope.myLen = Object.keys($scope.myData.data.defaultLayout.layout[0]).length;// kinda dirty, i should maybe find the longest row.
+    $scope.currentLayout = $scope.myData.data.defaultLayout.layout;
     console.log("SUCCESS PARSING JSON !!!!", Object.keys($scope.myData.data));
   };
 
