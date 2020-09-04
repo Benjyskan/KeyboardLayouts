@@ -7,14 +7,12 @@
 <div><!-- ng-hide if editing a specific layout -->
 	lock on layout:
 	<select
-		ng-options="layout as layout.name for layout in myData.data track by myData.data"
-		ng-model="$scope.currentLayout"
-		ng-change="changeLayoutViaSelect($scope)">
-		<option value="">- free -</option>
+		ng-options="layout as layout.name for layout in myData.data"
+		ng-model="layout"
+		ng-change="changeLayoutViaSelect(layout)">
+		<!--option value="">- free -</option>-->
 	</select>
-	<!-- <select ng-model="$scope.currentLayout"> -->
-		<!-- <option ng-repeat="layout in myData.data" value="layout">{{myData.data[layout]}} a</option> -->
-	<!-- </select> -->
+	<p>{{layout.name}}</p>
 </div>
 
 <table>
@@ -23,7 +21,7 @@
 	</thead>
 	<tbody>
 		<!-- <tr ng-repeat="row in myData.data.keyboard1"> -->
-		<tr ng-repeat="row in currentLayout" ng-model="currentLayout">
+		<tr ng-repeat="row in currentLayout.layout" ng-model="currentLayout.layout">
 			<td
 				ng-if="!isEditMode"
 				ng-repeat="key in row track by $index"
@@ -39,7 +37,6 @@
 					ng-model="key"
 					name="testName"
 					ng-change="myChange(key, $parent.$parent.$index, $index)"
-					maxlength="4"
 					onclick="this.select()"
 				>
 			</td>

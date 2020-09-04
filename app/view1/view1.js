@@ -38,7 +38,7 @@ angular.module('myApp.view1', ['ngRoute'])
       $scope.currentModifier.push("Ctrl");
     if (e.key == "Alt" || e.key == "Meta")
       $scope.currentModifier.push("Alt");
-    // console.log("down mod:", $scope.currentModifier);
+    console.log("down mod:", $scope.currentModifier);
   }
 
   $scope.removeModifier = function(e) {
@@ -54,13 +54,14 @@ angular.module('myApp.view1', ['ngRoute'])
   // Determine modifier priority
   $scope.setLayoutByModifierPriority = function(modifiers) {
     if (modifiers.includes("Shift")) {
-      $scope.currentLayout = $scope.myData.data.shiftLayout.layout;
+      $scope.currentLayout = $scope.myData.data.shiftLayout;
     } else if (modifiers.includes("Ctrl")) {
-      $scope.currentLayout = $scope.myData.data.ctrlLayout.layout;
+      $scope.currentLayout = $scope.myData.data.ctrlLayout;
     } else if (modifiers.includes("Alt")) {
-      $scope.currentLayout = $scope.myData.data.altLayout.layout;
-    } else
-      $scope.currentLayout = $scope.myData.data.defaultLayout.layout;
+      $scope.currentLayout = $scope.myData.data.altLayout;
+    } else {
+      $scope.currentLayout = $scope.myData.data.defaultLayout;
+    }
     $scope.$apply();
   }
 
@@ -80,17 +81,22 @@ angular.module('myApp.view1', ['ngRoute'])
   }
 
   $scope.myChange = function(key, row, col) {//RENAME PLZ
-    console.log("change[%d][%d] to '%s' on %s layout", row, col, key, $scope.currentLayout);
-    $scope.currentLayout[row][col] = key;
-    console.log("penzo - ", $scope.currentLayout);
+    console.log("change[%d][%d] to '%s' on %s layout", row, col, key, $scope.currentLayout.name);
+    $scope.currentLayout.layout[row][col] = key;
+    //console.log("penzo - ", $scope.currentLayout.layout);
   }
   
   // fetching .json functions
   function mySuccess(response) {
     $scope.myData = response;// should i use response.data instead ??
     $scope.myLen = Object.keys($scope.myData.data.defaultLayout.layout[0]).length;// kinda dirty, i should maybe find the longest row.
-    $scope.currentLayout = $scope.myData.data.defaultLayout.layout;
+    $scope.currentLayout = $scope.myData.data.defaultLayout;
     console.log("SUCCESS PARSING JSON !!!!", Object.keys($scope.myData.data));
+    let myArray = [];
+    angular.forEach(response.data, function(value, key) {
+      console.log("array", value, key);
+      myArray.push(value);
+    });
   };
 
   function myError(error) {
